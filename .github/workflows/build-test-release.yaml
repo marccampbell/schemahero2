@@ -1,0 +1,54 @@
+name: build-test-release
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  release:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+
+      - name: kustomize build it all
+        uses: karancode/kustomize-github-action@master
+        with:
+          kustomize_version: '4.1.0'
+          kustomize_build_dir: './kustomize/overlays/production'
+          kustomize_comment: true
+          kustomize_output_file: "gitops-rendered.yaml"
+
+      - name: upload rendered yaml
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: gitops-rendered.yaml
+          path: gitops-rendered.yaml
+
+      - uses: actions/checkout@v2.3.4
+        name: "check out gitops repo"
+        with:
+          repository: marccampbell/gitops-demo
+          token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
+          path: gitops-demo
+
+      - run: |
+          mkdir -p ./gitops-demo/schema2
+      - name: Split the rendered doc
+        uses: marccampbell/yaml-toolbox/action/split@master
+        with:
+          path: ./gitops-rendered.yaml
+          out: ./gitops-demo/schema2
+
+      - name: gitops-commit
+        run: |
+          git config --global user.email "marc.e.campbell@gmail.com"
+          git config --global user.name "Marc Campbell"
+          cd gitops-demo/schema2 && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
+          directory: gitops-demo/schema2
+          repository: marccampbell/gitops-demo
