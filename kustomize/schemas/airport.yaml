@@ -6,7 +6,7 @@ spec:
   database: airlinedb
   name: airport
   schema:
-    postgres:
+    mysql:
       primaryKey: [code]
       columns:
         - name: code

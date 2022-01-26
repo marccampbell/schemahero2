@@ -6,7 +6,7 @@ spec:
   database: airlinedb
   name: schedule
   schema:
-    postgres:
+    mysql:
       primaryKey: [flight_num]
       columns:
         - name: flight_num
