@@ -2,7 +2,6 @@ apiVersion: databases.schemahero.io/v1alpha4
 kind: Database
 metadata:
   name: airlinedb
-  namespace: schemahero-tutorial
 spec:
   immediateDeploy: true
   enableShellCommand: true
@@ -11,5 +10,5 @@ spec:
       uri:
         valueFrom:
           secretKeyRef:
-            name: postgresql
+            name: mysql
             key: uri
