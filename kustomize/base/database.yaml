@@ -6,7 +6,7 @@ spec:
   immediateDeploy: true
   enableShellCommand: true
   connection:
-    postgres:
+    mysql:
       uri:
         valueFrom:
           secretKeyRef:
