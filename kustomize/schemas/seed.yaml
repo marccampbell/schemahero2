@@ -1,0 +1,33 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: airport
+spec:
+  database: airlinedb
+  name: airport
+  schema:
+    mysql:
+      primaryKey: [code]
+      columns:
+        - name: code
+          type: char(4)
+        - name: name
+          type: varchar(255)
+          constraints:
+            notNull: true
+  seedData:
+    rows:
+      - columns:
+        - column: code
+          value:
+            str: LAX
+        - column: name
+          value:
+            str: Los Angeles, CA
+      - columns:
+          - column: code
+            value:
+              str: JFK
+          - column: name
+            value:
+              str: New York Kennedy
