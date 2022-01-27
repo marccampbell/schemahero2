@@ -5,6 +5,7 @@ metadata:
 spec:
   immediateDeploy: true
   enableShellCommand: true
+  deploySeedData: true
   connection:
     mysql:
       uri:
