@@ -15,3 +15,19 @@ spec:
           type: varchar(255)
           constraints:
             notNull: true
+  seedData:
+    rows:
+      - columns:
+        - column: code
+          value:
+            str: LAX
+        - column: name
+          value:
+            str: Los Angeles, CA
+      - columns:
+          - column: code
+            value:
+              str: JFK
+          - column: name
+            value:
+              str: New York Kennedy
